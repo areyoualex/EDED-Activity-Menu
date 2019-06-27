@@ -42,9 +42,9 @@ class SubfilterCheckbox extends React.Component {
       <div>
         <p>{this.props.name}</p>
         {this.props.options.map((option) =>
-          <div>
+          <div key={option}>
             <span>{option}</span>
-            <Checkbox type="checkbox" key={option} name={option} value={option} />
+            <Checkbox type="checkbox" name={option} value={option} />
           </div>
         )}
       </div>
@@ -66,13 +66,13 @@ class SubfilterRange extends React.Component {
         <span>min</span>
         <select>
           {this.props.options.map((option) =>
-            <option value={option}>{option}</option>
+            <option key={option} value={option}>{option}</option>
           )}
         </select>
         <span>max</span>
         <select>
           {this.props.options.map((option) =>
-            <option value={option}>{option}</option>
+            <option key={option} value={option}>{option}</option>
           )}
         </select>
       </div>

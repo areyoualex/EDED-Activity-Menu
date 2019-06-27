@@ -133,15 +133,15 @@ function processLineByLine(schoolLevel, type) {
         line = line.replaceAll("\u200B", "");
         line = line.trim();
         line = line.replaceAll("\u200B", "");
-        console.log("new line:");
-        console.log(line);
+        // console.log("new line:");
+        // console.log(line);
         for (var i=0; i<line.length; i++){
-          console.log("char at "+i+": "+line[i]);
-          console.log("charcode at "+i+": "+line.charCodeAt(i));
+          // console.log("char at "+i+": "+line[i]);
+          // console.log("charcode at "+i+": "+line.charCodeAt(i));
           if (line[i] == ' ') break; // TODO: check if this works
           points += line[i];
         }
-        console.log(points);
+        // console.log(points);
         if (line.includes("Points vary")) points = "*";
         currentActivity["Points"] = points;
 
@@ -183,15 +183,23 @@ function processLineByLine(schoolLevel, type) {
       } else if (anticipating === "Grade Level"){
         var origLine = line;
         line = line.toLowerCase();
+        console.log("--------")
+        console.log(line);
         if (line == "all grades")
           currentActivity["Grade Level"] = "0-12";
         else if (line.slice(0,6) == "grades"){
           var grade = line.slice(7);
-          grade.replace("k", "0");
+          grade = grade.replace("k", "0");
           var space;
           for (var i in grade)
             //Loop through and cut off at space
-            if (grade[i] == ' ') space = i; // TODO: also check if this works
+            if (grade[i] == ' '){
+              space = i;
+              break;
+            } else if (grade[i] == ','){
+              space = i;
+              break;
+            }
           currentActivity["Grade Level"] = grade.slice(0,space);
         } else if (line == "elementary school") {
           currentActivity["Grade Level"] = "0-5";
@@ -203,9 +211,13 @@ function processLineByLine(schoolLevel, type) {
           line = line.replace("k", "0");
           currentActivity["Grade Level"] = line[6];
         } else {
+          console.log("couldn't find grade, next line");
           linesAnticipating = 0;
           return;
         }
+        console.log(currentActivity["Grade Level"]);
+        console.log("******");
+        console.log(currentActivity);
 
         anticipating = "Title";
         linesAnticipating = 2;

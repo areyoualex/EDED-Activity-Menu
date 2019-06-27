@@ -18,10 +18,13 @@
   "homepage": "https://github.com/areyoualex/EDED-Activity-Menu#readme",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.2",
+    "csv-parser": "^2.3.0",
     "gatsby": "^2.10.4",
     "gatsby-plugin-styled-components": "^3.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.1",
     "styled-components": "^4.3.2"
   }
 }

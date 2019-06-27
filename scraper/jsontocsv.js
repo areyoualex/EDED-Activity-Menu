@@ -53,7 +53,7 @@ fs.readFile('activities.json', (err, data)=>{
     //types
     let typeString = "\"";
     for (var type of activity["Type"]) {
-      typeString+=cat+","
+      typeString+=type+","
     }
     typeString = typeString.slice(0,-1);
     typeString+="\",";
