@@ -1,0 +1,47 @@
+.container {
+  width: 20rem;
+  padding: 1rem;
+  background-color: #e2e2e2;
+  border: 10px solid #dbdbdb;
+  box-sizing: border-box;
+}
+.title {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.subfilterWrapper {
+  margin-top: .8rem;
+}
+.subfilterWrapper p {
+  margin-bottom: .4rem;
+  font-weight: 500;
+}
+
+.categories, .type, .points, .grade {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.categories, .type {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.points {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox {
+  display: flex;
+  margin: 2px;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+.checkbox span {
+  margin-left: 5px;
+}
