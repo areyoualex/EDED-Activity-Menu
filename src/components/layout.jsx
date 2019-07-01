@@ -5,12 +5,15 @@ import s from './layout.module.css'
 let layout = (props) => {
   return (
     <div>
-      <header>
-        {/*<img />*/}
-        <h1>Earth Day Every Day Challenge</h1>
-        <h2>Activity Menu</h2>
-      </header>
-      {props.children}
+      <div className={s.headerBG} />
+      <div className={s.content}>
+        <header>
+          {/*<img />*/}
+          <h1>Earth Day Every Day Challenge</h1>
+          <h2>Activity Menu</h2>
+        </header>
+        {props.children}
+      </div>
     </div>
   );
 };

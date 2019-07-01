@@ -16,6 +16,7 @@
 .subfilterWrapper p {
   margin-bottom: .4rem;
   font-weight: 500;
+  font-size: 1.2rem;
 }
 
 .categories, .type, .points, .grade {
