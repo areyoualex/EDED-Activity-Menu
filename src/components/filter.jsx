@@ -5,25 +5,38 @@ import s from './filter.module.css'
 class Filter extends React.Component {
   constructor() {
     super();
-    this.state = {
-      dummyvalues: [1,2,3,4,"hello"]
-    };
+    // this.state = {
+    //   dummyvalues: [1,2,3,4,"hello"]
+    // };
   }
   render() {
+    let getPoints = (max, inc) => {
+      var ret = [];
+      for (var i = 0; i <= max; i+=inc)
+        ret.push(i);
+      if (max%inc !== 0 ) ret.push(max);
+      return ret;
+    };
+    let getGrades = () => {
+      var ret = [{tag:"K", value:"0"}];
+      for (var i = 1; i<=12; i++)
+        ret.push({tag:i, value:i});
+      return ret;
+    }
     return (
       <div className={s.container}>
         <p className={s.title}>Filter...</p>
         <SubfilterCheckbox name="Categories"
-          options={this.state.dummyvalues}
+          options={this.props.categories}
           class={s.categories} />
         <SubfilterCheckbox name="Type"
-          options={this.state.dummyvalues}
+          options={this.props.types}
           class={s.type} />
         <SubfilterRange name="Number of points"
-          options={this.state.dummyvalues}
+          options={getPoints(this.props.maxPoints, 5)}
           class={s.points} />
         <SubfilterCheckbox name="Grade level"
-          options={this.state.dummyvalues}
+          options={getGrades()} diffValues={true}
           class={s.grade} />
       </div>
     );
@@ -40,17 +53,31 @@ class SubfilterCheckbox extends React.Component {
     };
   }
   render() {
-    const Checkbox = styled.input`
-      background-color: red;
-    `;
+    if (this.props.diffValues) {
+      return (
+        <div>
+          <p>{this.props.name}</p>
+          {this.props.options.map((option) =>
+            <div key={option.value}>
+              <span>{option.tag}</span>
+              <input type="checkbox"
+                name={option.value}
+                value={option.value} />
+            </div>
+          )}
+        </div>
+      );
+    }
     return (
       <div className={s.subfilterWrapper}>
         <p>{this.props.name}</p>
         <div className={this.props.class}>
-          {this.props.options.map((option) =>
+          {this.props.options.length === 0 ?
+            (<span>Loading...</span>)
+            : this.props.options.map((option) =>
             <div key={option} className={s.checkbox}>
-              <Checkbox type="checkbox" name={option} value={option} />
               <span>{option}</span>
+              <input type="checkbox" name={option} value={option} />
             </div>
           )}
         </div>

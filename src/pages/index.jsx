@@ -16,7 +16,14 @@ class Index extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: []
+      data: {
+        categories: [],
+        types: [],
+        points: {
+          min: 0,
+          max: 0
+        }
+      }
     };
   }
   handleActivityData(raw) {
@@ -26,12 +33,33 @@ class Index extends React.Component {
     s.push(null);
     s.pipe(csv())
      .on('data', (data) => {
-       console.log(data);
+       //fix category and type data
+       data["Category"] = data["Category"].split(',');
+       data["Type"] = data["Type"].split(',');
+
+       var state = this.state;
+       //add categories
+       for (var cat of data["Category"]) {
+         if(!this.state.data.categories.includes(cat))
+           state.data.categories.push(cat);
+       }
+       //add types
+       for (var type of data["Type"]) {
+         if(!this.state.data.types.includes(type))
+           state.data.types.push(type);
+       }
+       //update max points
+       if(this.state.data.points.max < data["Points"])
+         state.data.points.max = data["Points"];
+       //update state
+       this.setState(state);
+
+       //add to store
        this.props.addActivity(data);
-       console.log(this.props.addActivity);
      })
      .on('end', () => {
        console.log("done!");
+       console.log(this.state);
      });
   }
   componentDidMount() {
@@ -72,7 +100,10 @@ class Index extends React.Component {
       <Layout>
         <Header>Activity Menu</Header>
         <div className={s.wrapper}>
-          <Filter />
+          <Filter
+            categories={this.state.data.categories}
+            types={this.state.data.types}
+            maxPoints={this.state.data.points.max}/>
           <Activities />
         </div>
       </Layout>
