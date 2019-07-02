@@ -7,7 +7,7 @@ module.exports = {
       email: `conserve@sfusd.edu`,
       twitter: `greenthenextgen`,
       instagram: `sfusd_sustainability`
-    }
+    },
   },
   plugins: [
     `gatsby-plugin-styled-components`

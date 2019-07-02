@@ -1,8 +1,9 @@
 import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
 
 import s from './activities.module.css'
 
-import exploratorium from '../img/explo-logo-black.svg';
+import exploratorium from '../img/explo-logo-black.svg'
 
 class Activities extends React.Component {
   render () {
@@ -40,7 +41,7 @@ class Activity extends React.Component {
                 width: "100%",
                 height: this.state.displaySize/5
               }}>
-              
+              {}
             </div>
             <p>{this.props.points}</p>
           </div>

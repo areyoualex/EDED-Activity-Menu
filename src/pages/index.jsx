@@ -1,4 +1,5 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import Filter from '../components/filter'
 import Activities from '../components/activities'
@@ -98,7 +99,7 @@ class Index extends React.Component {
     `;
     return (
       <Layout>
-        <Header>Activity Menu</Header>
+        <Header>{this.props.data.site.siteMetadata.pageTitle}</Header>
         <div className={s.wrapper}>
           <Filter
             categories={this.state.data.categories}
@@ -115,3 +116,13 @@ export default connect(
   null,
   {addActivity: actions.addActivity}
 )(Index);
+
+export const query = graphql`
+  query IndexQuery {
+    site {
+      siteMetadata {
+        pageTitle
+      }
+    }
+  }
+`;
