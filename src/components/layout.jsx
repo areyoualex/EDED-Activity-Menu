@@ -10,7 +10,7 @@ let layout = (props) => {
       <div className={s.content}>
         <header>
           <div className="wrapper">
-            <img src={logo} />
+            <img src={logo} alt={"SFUSD Sustainability Logo"} />
             <a href="https://www.earthdayeverydaysf.com">
               <h1>SFUSD Earth Day Every Day Challenge</h1>
             </a>

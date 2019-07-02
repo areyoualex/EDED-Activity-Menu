@@ -1,14 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
 import s from './filter.module.css'
 
 class Filter extends React.Component {
-  constructor() {
-    super();
-    // this.state = {
-    //   dummyvalues: [1,2,3,4,"hello"]
-    // };
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     dummyvalues: [1,2,3,4,"hello"]
+  //   };
+  // }
   render() {
     let getPoints = (max, inc) => {
       var ret = [];
