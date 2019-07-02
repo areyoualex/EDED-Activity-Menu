@@ -1,7 +1,10 @@
 import React from 'react'
 import Layout from '../components/layout'
 import Filter from '../components/filter'
+import Activities from '../components/activities'
+
 import styled from 'styled-components'
+import s from './index.module.css'
 
 import { connect } from 'react-redux'
 import { actions } from '../data/app'
@@ -68,7 +71,10 @@ class Index extends React.Component {
     return (
       <Layout>
         <Header>Activity Menu</Header>
-        <Filter />
+        <div className={s.wrapper}>
+          <Filter />
+          <Activities />
+        </div>
       </Layout>
     );
   }
