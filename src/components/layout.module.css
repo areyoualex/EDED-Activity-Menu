@@ -4,7 +4,9 @@
 }
 .headerBG {
   position: absolute;
-  height: 90px;
+  height: 86px;
   width: 100%;
   /* background-color:  */
+  background-color: #87c9c3;
+  z-index: -1;
 }

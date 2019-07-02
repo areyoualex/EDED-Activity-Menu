@@ -1,6 +1,7 @@
 import React from 'react'
 import './layout.css'
 import s from './layout.module.css'
+import logo from '../img/sustainabilitylogo.webp'
 
 let layout = (props) => {
   return (
@@ -8,9 +9,15 @@ let layout = (props) => {
       <div className={s.headerBG} />
       <div className={s.content}>
         <header>
-          {/*<img />*/}
-          <h1>Earth Day Every Day Challenge</h1>
-          <h2>Activity Menu</h2>
+          <div className="wrapper">
+            <img src={logo} />
+            <a href="https://www.earthdayeverydaysf.com">
+              <h1>SFUSD Earth Day Every Day Challenge</h1>
+            </a>
+          </div>
+          <a href="https://www.earthdayeverydaysf.com">
+            Back to Home
+          </a>
         </header>
         {props.children}
       </div>

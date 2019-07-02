@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from '../components/layout'
 import Filter from '../components/filter'
+import styled from 'styled-components'
 
 import { connect } from 'react-redux'
 import { actions } from '../data/app'
@@ -57,8 +58,16 @@ class Index extends React.Component {
     this.setState(state);
   }
   render() {
+    let Header = styled.h2`
+      font-family: Oswald;
+      font-size: 80px;
+      color: #525252;
+      font-weight: normal;
+      margin: 41px 0px 13px 0;
+    `;
     return (
       <Layout>
+        <Header>Activity Menu</Header>
         <Filter />
       </Layout>
     );

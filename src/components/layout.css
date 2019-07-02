@@ -8,7 +8,7 @@ body {
 }
 header {
   font-family: 'Oswald';
-  height: 90px;
+  height: 86px;
   width: 100%;
 }
 header * {
@@ -16,4 +16,27 @@ header * {
 }
 header h1 {
   font-size: 22px;
+  color: #004566;
+  /* padding-top: 17px; */
+}
+a {
+  text-decoration: none;
+}
+header > a {
+  font-size: 15px;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  color: white;
+}
+header img {
+  height: 29px;
+  width: 56px;
+  margin-bottom: 6px;
+  margin-right: 8px;
+}
+header div.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding-top: 17px;
 }
