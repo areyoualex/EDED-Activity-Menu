@@ -55,16 +55,18 @@ class SubfilterCheckbox extends React.Component {
   render() {
     if (this.props.diffValues) {
       return (
-        <div>
+        <div className={s.subfilterWrapper}>
           <p>{this.props.name}</p>
-          {this.props.options.map((option) =>
-            <div key={option.value}>
-              <span>{option.tag}</span>
-              <input type="checkbox"
-                name={option.value}
-                value={option.value} />
-            </div>
-          )}
+          <div className={this.props.class}>
+            {this.props.options.map((option) =>
+              <div key={option.value} className={s.checkbox}>
+                <span>{option.tag}</span>
+                <input type="checkbox"
+                  name={option.value}
+                  value={option.value} />
+              </div>
+            )}
+          </div>
         </div>
       );
     }
