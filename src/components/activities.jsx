@@ -27,7 +27,7 @@ class Activity extends React.Component {
     this.ref = React.createRef();
   }
   componentDidMount() {
-    let displaySize = this.ref.current.offsetWidth / 7 * 2;
+    let displaySize = this.ref.current.offsetWidth / 4;
     this.setState({displaySize});
   }
   render() {
