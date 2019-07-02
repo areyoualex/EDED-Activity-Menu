@@ -5,6 +5,8 @@ import s from './activities.module.css'
 
 import exploratorium from '../img/explo-logo-black.svg'
 
+import cats from '../categoryData.json'
+
 class Activities extends React.Component {
   render () {
     return (
@@ -18,6 +20,7 @@ class Activities extends React.Component {
 }
 
 class Activity extends React.Component {
+  static defaultProps = {categories: []}
   constructor() {
     super();
     this.state = {displaySize: 0};
@@ -41,7 +44,14 @@ class Activity extends React.Component {
                 width: "100%",
                 height: this.state.displaySize/5
               }}>
-              {}
+              {Object.keys(cats).map((cat)=>(
+                <Category active={this.props.categories.includes(cat)
+                    || this.props.categories.includes("All")}
+                  color={cats[cat].color}
+                  icon={cats[cat].image}
+                  size={this.state.displaySize/5}
+                  key={cat} />
+              ))}
             </div>
             <p>{this.props.points}</p>
           </div>
@@ -51,6 +61,40 @@ class Activity extends React.Component {
         <p>{this.props.description}</p>
       </div>
     );
+  }
+}
+
+class Category extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  async getImage() {
+    let img = await import("../img/category/"+this.props.icon);
+    let imgurl = img.default;
+    this.setState({img: imgurl});
+  }
+  componentDidMount() {
+    this.getImage();
+  }
+  render() {
+    let styles = {};
+    return (
+      <div>
+        <div style={{
+            width: this.props.size,
+            height: this.props.size,
+            backgroundColor: this.props.color,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}>
+          <img src={this.state.img} style={{
+              height: this.props.size/4*3
+            }} />
+        </div>
+      </div>
+    )
   }
 }
 
