@@ -1,19 +1,29 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+// import { useStaticQuery, graphql } from 'gatsby'
+
+import { connect } from 'react-redux'
 
 import s from './activities.module.css'
 
-import exploratorium from '../img/explo-logo-black.svg'
-
-import cats from '../categoryData.json'
+import colorMap from '../colorMap.json'
 
 class Activities extends React.Component {
   render () {
     return (
       <div className={s.main}>
-        <Activity
-          img={exploratorium}
-          alt={"Exploratorium logo"} />
+        {this.props.activities.map((activity)=>{
+          return (
+            <Activity key={activity.Title}
+              title={activity.Title}
+              img={activity.Image}
+              grade={activity["Grade Level"]}
+              type={activity.Type}
+              points={activity.Points}
+              description={activity.Description}
+              links={activity.Links}
+              categories={activity.Category} />
+          );
+        })}
       </div>
     );
   }
@@ -21,82 +31,68 @@ class Activities extends React.Component {
 
 class Activity extends React.Component {
   static defaultProps = {categories: []}
-  constructor() {
-    super();
-    this.state = {displaySize: 0};
-    this.ref = React.createRef();
-  }
-  componentDidMount() {
-    let displaySize = this.ref.current.offsetWidth / 4;
-    this.setState({displaySize});
-  }
   render() {
+    let gradeString = "";
+    if (this.props.grade) {
+      gradeString = this.props.grade.includes("-") ?
+      "Grades "+this.props.grade
+      : "Grade "+this.props.grade;
+    }
+    let typeString = "";
+    if (this.props.type) {
+      for (let i of this.props.type)
+        typeString = typeString+", "+i;
+    }
+    let pointString = "Points vary";
+    if (this.props.points && this.props.points !== "*")
+      pointString = this.props.points+" points";
     return (
       <div className={s.activity} ref={this.ref}>
-        <div className={s.activitySummary}>
-          <div className={s.activityDisplay}
-            style={{
-              width: this.state.displaySize,
-              height: this.state.displaySize}}>
-            <img src={this.props.img} alt={this.props.imgAlt} />
-            <div className={s.activityCategories}
-              style={{
-                width: "100%",
-                height: this.state.displaySize/5
-              }}>
-              {Object.keys(cats).map((cat)=>(
-                <Category active={this.props.categories.includes(cat)
-                    || this.props.categories.includes("All")}
-                  color={cats[cat].color}
-                  icon={cats[cat].image}
-                  size={this.state.displaySize/5}
-                  key={cat} />
-              ))}
-            </div>
-            <p>{this.props.points}</p>
+        <img src={this.props.img} />
+        <div className={s.infoContainer}>
+          <h4>{this.props.title}</h4>
+          <p>{gradeString}{typeString}</p>
+          <p className={s.activityPoints}>{pointString}</p>
+          <div className={s.pillContainer}>
+            {this.props.categories.map((cat)=>{
+              return (
+                <Pill key={cat} name={cat} />
+              );
+            })}
           </div>
-          <h3>{this.props.title}</h3>
-          <span>{this.props.subtitle}</span>
+          <p>{this.props.description}</p>
+          {this.props.links && this.props.links.map((link)=>{
+            if (link.Link !== "")
+              return (
+                <a href={link.Link}>
+                  {link.Text}
+                </a>
+              );
+          })}
         </div>
-        <p>{this.props.description}</p>
       </div>
     );
   }
 }
 
-class Category extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-  async getImage() {
-    let img = await import("../img/category/"+this.props.icon);
-    let imgurl = img.default;
-    this.setState({img: imgurl});
-  }
-  componentDidMount() {
-    this.getImage();
-  }
-  render() {
-    let styles = {};
-    return (
-      <div>
-        <div style={{
-            width: this.props.size,
-            height: this.props.size,
-            backgroundColor: this.props.color,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}>
-          <img src={this.state.img} style={{
-              height: this.props.size/4*3
-            }} />
-        </div>
-      </div>
-    )
-  }
+const Pill = (props) => {
+  return (
+    <div className={s.pill} style={{
+        backgroundColor: colorMap[props.name]
+      }}>
+      {props.name}
+    </div>
+  )
 }
 
 
-export default Activities;
+let mapFilteredActivities = (state) => {
+  return {
+    activities: state.activities
+  };
+};
+
+export default connect(
+  mapFilteredActivities,
+  null
+)(Activities);

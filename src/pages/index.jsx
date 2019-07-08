@@ -38,6 +38,22 @@ class Index extends React.Component {
        data["Category"] = data["Category"].split(',');
        data["Type"] = data["Type"].split(',');
 
+       //fix link data
+       data["Links"] = [
+         {
+           "Link": data["Link"],
+           "Text": data["Link Text"]
+         },
+         {
+           "Link": data["Link 2"],
+           "Text": data["Link Text 2"]
+         },
+         {
+           "Link": data["Link 3"],
+           "Text": data["Link Text 3"]
+         },
+       ];
+
        var state = this.state;
        //add categories
        for (var cat of data["Category"]) {
@@ -59,8 +75,7 @@ class Index extends React.Component {
        this.props.addActivity(data);
      })
      .on('end', () => {
-       console.log("done!");
-       console.log(this.state);
+       console.log("done loading!");
      });
   }
   componentDidMount() {

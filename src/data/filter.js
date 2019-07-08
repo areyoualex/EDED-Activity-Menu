@@ -20,10 +20,7 @@ function category(state = [], action) {
     case "ADD_CATEGORY":
       return [...state, action.filter];
     case "REMOVE_CATEGORY":
-      let s = state;
-      let i = s.findIndex(action.filter);
-      if (i!==-1) s.splice(i,1);
-      return s;
+      return state.filter(term => term !== action.filter);
     default:
       return state;
   }
@@ -33,10 +30,7 @@ function type(state = [], action) {
     case "ADD_TYPE":
       return [...state, action.filter];
     case "REMOVE_TYPE":
-      let s = state;
-      let i = s.findIndex(action.filter);
-      if (i!==-1) s.splice(i,1);
-      return s;
+      return state.filter(term => term !== action.filter);
     default:
       return state;
   }
@@ -46,10 +40,7 @@ function gradeLevel(state = [], action) {
     case "ADD_GRADE_LEVEL":
       return [...state, action.filter];
     case "REMOVE_GRADE_LEVEL":
-      let s = state;
-      let i = s.findIndex(action.filter);
-      if (i!==-1) s.splice(i,1);
-      return s;
+      return state.filter(term => term !== action.filter);
     default:
       return state;
   }

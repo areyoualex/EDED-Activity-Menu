@@ -1,13 +1,10 @@
 import React from 'react'
 import s from './filter.module.css'
 
+import { connect } from 'react-redux'
+import { actions } from '../data/filter'
+
 class Filter extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     dummyvalues: [1,2,3,4,"hello"]
-  //   };
-  // }
   render() {
     let getPoints = (max, inc) => {
       var ret = [];
@@ -26,30 +23,37 @@ class Filter extends React.Component {
       <div className={s.container}>
         <p className={s.title}>Filter...</p>
         <SubfilterCheckbox name="Categories"
+          type="CATEGORY"
           options={this.props.categories}
           class={s.categories} />
         <SubfilterCheckbox name="Type"
+          type="TYPE"
           options={this.props.types}
           class={s.type} />
         <SubfilterRange name="Number of points"
+          type="POINTS"
           options={getPoints(this.props.maxPoints, 5)}
           class={s.points} />
         <SubfilterCheckbox name="Grade level"
+          type="GRADE_LEVEL"
           options={getGrades()} diffValues={true}
           class={s.grade} />
       </div>
     );
   }
 }
-
 export default Filter;
 
-class SubfilterCheckbox extends React.Component {
+class SubfilterCheckboxUnconnected extends React.Component {
   constructor() {
     super();
-    this.state = {
-      selected: []
-    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+  handleInputChange(e) {
+    const term = e.target.name;
+
+    if (e.target.checked) this.props.addFilterTerm(this.props.type, term);
+    else this.props.removeFilterTerm(this.props.type, term);
   }
   render() {
     if (this.props.diffValues) {
@@ -59,10 +63,11 @@ class SubfilterCheckbox extends React.Component {
           <div className={this.props.class}>
             {this.props.options.map((option) =>
               <div key={option.value} className={s.checkbox}>
-                <span>{option.tag}</span>
                 <input type="checkbox"
                   name={option.value}
-                  value={option.value} />
+                  value={option.value}
+                  onChange={this.handleInputChange} />
+                <span>{option.tag}</span>
               </div>
             )}
           </div>
@@ -77,8 +82,11 @@ class SubfilterCheckbox extends React.Component {
             (<span>Loading...</span>)
             : this.props.options.map((option) =>
             <div key={option} className={s.checkbox}>
+              <input type="checkbox"
+                name={option}
+                value={option}
+                onChange={this.handleInputChange} />
               <span>{option}</span>
-              <input type="checkbox" name={option} value={option} />
             </div>
           )}
         </div>
@@ -86,13 +94,27 @@ class SubfilterCheckbox extends React.Component {
     );
   }
 }
+const SubfilterCheckbox = connect(
+  null, {...actions}
+)(SubfilterCheckboxUnconnected);
 
-class SubfilterRange extends React.Component {
+class SubfilterRangeUnconnected extends React.Component {
   constructor() {
     super();
     this.state = {
-      selected: "0-*"
+      min: "0",
+      max: "*"
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+  handleInputChange(e) {
+    if (e.target.name === "min")
+      this.setState({min: e.target.value});
+    if (e.target.name === "max")
+      this.setState({max: e.target.value});
+
+    let term = this.state.min+"-"+this.state.max;
+    this.props.changeFilterTerm(this.props.type,term);
   }
   render() {
     return (
@@ -100,13 +122,13 @@ class SubfilterRange extends React.Component {
         <p>{this.props.name}</p>
         <div className={this.props.class}>
           <span>min</span>
-          <select>
+          <select onChange={this.handleInputChange} name="min">
             {this.props.options.map((option) =>
               <option key={option} value={option}>{option}</option>
             )}
           </select>
           <span>max</span>
-          <select>
+          <select onChange={this.handleInputChange} name="max">
             {this.props.options.map((option) =>
               <option key={option} value={option}>{option}</option>
             )}
@@ -116,3 +138,7 @@ class SubfilterRange extends React.Component {
     );
   }
 }
+
+const SubfilterRange = connect(
+  null, {...actions}
+)(SubfilterRangeUnconnected);

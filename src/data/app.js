@@ -16,10 +16,11 @@ export let actions = {...filterActions, addActivity, removeActivity};
 function activities(state = [], action) {
   switch (action.type) {
     case "ADD_DATA":
-      return [
-        ...state.activities,
+      let ret = [
+        ...state,
         action.activity
       ];
+      return ret;
     case "REMOVE_DATA":
       let activities = state.activities;
       let i = activities.findIndex(action.activity);
@@ -38,4 +39,7 @@ const app = combineReducers({
 
 //CREATE STORE
 const store = createStore(app);
+// store.subscribe(()=>{
+//   console.log(store.getState());
+// });
 export default store;
