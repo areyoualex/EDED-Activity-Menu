@@ -5,6 +5,19 @@ import { connect } from 'react-redux'
 import { actions } from '../data/filter'
 
 class Filter extends React.Component {
+  constructor () {
+    super();
+    this.state = {
+      categories: [],
+      types: []
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      categories: this.props.categories,
+      types: this.props.types
+    });
+  }
   render() {
     let getPoints = (max, inc) => {
       var ret = [];
@@ -24,11 +37,11 @@ class Filter extends React.Component {
         <p className={s.title}>Filter...</p>
         <SubfilterCheckbox name="Categories"
           type="CATEGORY"
-          options={this.props.categories}
+          options={this.state.categories.slice(0)}
           class={s.categories} />
         <SubfilterCheckbox name="Type"
           type="TYPE"
-          options={this.props.types}
+          options={this.state.types.slice(0)}
           class={s.type} />
         <SubfilterRange name="Number of points"
           type="POINTS"
@@ -108,12 +121,15 @@ class SubfilterRangeUnconnected extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
   handleInputChange(e) {
-    if (e.target.name === "min")
+    let term = "";
+    if (e.target.name === "min"){
       this.setState({min: e.target.value});
-    if (e.target.name === "max")
+      term = e.target.value+"-"+this.state.max;
+    }
+    if (e.target.name === "max"){
       this.setState({max: e.target.value});
-
-    let term = this.state.min+"-"+this.state.max;
+      term = this.state.min+"-"+e.target.value;
+    }
     this.props.changeFilterTerm(this.props.type,term);
   }
   render() {

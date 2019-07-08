@@ -40,6 +40,6 @@ const app = combineReducers({
 //CREATE STORE
 const store = createStore(app);
 // store.subscribe(()=>{
-//   console.log(store.getState());
+//   console.log(store.getState().filter);
 // });
 export default store;

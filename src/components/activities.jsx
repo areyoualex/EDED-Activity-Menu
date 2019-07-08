@@ -38,6 +38,7 @@ class Activity extends React.Component {
       "Grades "+this.props.grade
       : "Grade "+this.props.grade;
     }
+    gradeString = gradeString.replace("0","K");
     let typeString = "";
     if (this.props.type) {
       for (let i of this.props.type)
@@ -87,9 +88,73 @@ const Pill = (props) => {
 
 
 let mapFilteredActivities = (state) => {
-  return {
-    activities: state.activities
+  let activities = state.activities.slice(0);
+
+  //Filter categories
+  if (state.filter.category.length !== 0){
+    let filteredActivities = [];
+    for (let cat of state.filter.category)
+      filteredActivities = [
+        ...filteredActivities,
+        ...activities.filter(act => {
+          if (filteredActivities.includes(act)) return false;
+          if (act["Category"].includes("All")) return true;
+          return act["Category"].includes(cat);
+        })
+      ];
+    activities = filteredActivities;
+  }
+
+  //Filter types
+  if (state.filter.type.length !== 0){
+    let filteredActivities = [];
+    for (let type of state.filter.type)
+      filteredActivities = [
+        ...filteredActivities,
+        ...activities.filter(act => {
+          if (filteredActivities.includes(act)) return false;
+          return act["Type"].includes(type);
+        })
+      ];
+    activities = filteredActivities;
+  }
+
+  //Filter points
+  let points = state.filter.points.split("-");
+  activities = activities.filter((act) => {
+    if (points[1] == "*") return act.Points >= parseInt(points[0]);
+    else if (act.Points == "*") return true;
+    else return act.Points >= parseInt(points[0]) && act.Points <= parseInt(points[1]);
+  });
+
+  //Filter grade level
+  if (state.filter.gradeLevel.length !== 0){
+    let filteredActivities = [];
+    for (let grade of state.filter.gradeLevel)
+      filteredActivities = [
+        ...filteredActivities,
+        ...activities.filter(act => {
+          if (filteredActivities.includes(act)) return false;
+          let actGrade = act["Grade Level"].split("-");
+          if (actGrade.length === 1){
+            return grade == actGrade[0];}
+          else return parseInt(actGrade[0]) <= parseInt(grade)
+            && parseInt(grade) <= parseInt(actGrade[1]);
+        })
+      ];
+    activities = filteredActivities;
+  }
+
+  //Return filtered activities
+  let sortFunction = (a,b)=>{
+    let varA = a.Title.toLowerCase();
+    let varB = b.Title.toLowerCase();
+    if (varA< varB) return -1;
+    else if (varA> varB) return 1;
+    else return 0;
   };
+  activities = activities.sort(sortFunction)
+  return { activities };
 };
 
 export default connect(
