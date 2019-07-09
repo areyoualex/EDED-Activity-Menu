@@ -24,16 +24,15 @@ let layout = (props) => {
       <div className={s.headerBG} />
       <div className={s.content}>
         <header>
-          <div className="wrapper">
-            <img src={logo} alt={"SFUSD Sustainability Logo"} />
-            <a href={data.site.siteMetadata.homeUrl}>
-              <h1>{data.site.siteMetadata.title}</h1>
-            </a>
-          </div>
+          <img src={logo} alt={"SFUSD Sustainability Logo"} />
           <a href={data.site.siteMetadata.homeUrl}>
-            Back to Home
+            <h1>{data.site.siteMetadata.title}</h1>
           </a>
         </header>
+        <a className={s.backLink}
+          href={data.site.siteMetadata.homeUrl}>
+          {"<"} Back to Home
+        </a>
         {props.children}
         <footer>
           <span>Contact Us</span>

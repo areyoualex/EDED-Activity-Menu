@@ -129,7 +129,7 @@ class Index extends React.Component {
       font-size: 80px;
       color: #525252;
       font-weight: normal;
-      margin: 41px 0px 13px 0;
+      margin-bottom: 13px;
       @media only screen and (max-width: 850px) {
         margin-bottom: 2rem;
         font-size: 3rem;

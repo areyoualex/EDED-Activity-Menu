@@ -3,6 +3,14 @@
   margin: auto;
   padding: 0 1rem;
 }
+.backLink {
+  margin: 35px 0 0;
+  display: block;
+  font-size: 15px;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  color: gray;
+}
 .headerBG {
   position: absolute;
   height: 86px;
