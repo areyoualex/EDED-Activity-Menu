@@ -153,9 +153,53 @@ let mapFilteredActivities = (state) => {
   }
 
   //Filter search term
-  let search = state.filter.searchTerm.trim();
-  if (search !== ""){
-    activities = activities.filter(act => act.Title.includes(search));
+  let search = state.filter.searchTerm.toLowerCase().trim().split(" ");
+  if (search[0] !== ""){
+    activities.map(a => {a.relevance = 0; return a;});
+    let filteredActivities = [];
+    let term;
+    let filterFunc = (act, i) => {
+      if (!act.relevance) act.relevance = 0;
+      if (act.Title.toLowerCase().includes(search.join(' '))){
+        act.relevance+=50;
+      }
+      if (act.Description.toLowerCase().includes(search.join(' ')))
+        act.relevance+=30;
+      act.relevance +=
+        (act.Title
+          .toLowerCase()
+          .match(new RegExp(term,'g')) || []).length;
+      act.relevance +=
+        (act.Description
+          .toLowerCase()
+          .match(new RegExp(term,'g')) || []).length;
+
+      if (!filteredActivities.includes(act) && act.relevance > 0) {
+        return true;
+      }
+      return false;
+    }
+    for (term of search)
+      filteredActivities = [
+        ...filteredActivities,
+        ...activities.filter(filterFunc)
+      ]
+    activities = filteredActivities;
+
+    //Return filtered activities, sorted by relevance
+    let sortFunction = (a,b)=>{
+      if (a.relevance > b.relevance) return -1;
+      else if (a.relevance < b.relevance) return 1;
+      else {
+        let varA = a.Title.toLowerCase();
+        let varB = b.Title.toLowerCase();
+        if (varA < varB) return -1;
+        else if (varA > varB) return 1;
+        else return 0;
+      };
+    };
+    activities = activities.sort(sortFunction)
+    return { activities };
   }
 
   //Return filtered activities
