@@ -119,6 +119,10 @@ class Index extends React.Component {
     this.request.send();
     this.setState(state);
   }
+  showFilter() {
+    console.log(actions);
+    this.props.showFilter(true);
+  }
   render() {
     let Header = styled.h2`
       font-family: Oswald;
@@ -126,11 +130,30 @@ class Index extends React.Component {
       color: #525252;
       font-weight: normal;
       margin: 41px 0px 13px 0;
+      @media only screen and (max-width: 850px) {
+        margin-bottom: 2rem;
+        font-size: 3rem;
+      }
+    `;
+    let FilterButton = styled.button`
+      margin: 0 0 1rem 8px;
+      font-family: Roboto;
+      font-style: italic;
+      color: #fff;
+      border: none;
+      background-color: #5A5A5A;
+      border-radius: 10px;
+      padding: 4px 20px;
+      display: none;
+      @media only screen and (max-width: 850px) {
+        display: block;
+      }
     `;
     return (
       <Layout>
         <Header>{this.props.data.site.siteMetadata.pageTitle}</Header>
         <div className={s.wrapper}>
+          <FilterButton onClick={this.showFilter.bind(this)}>Filter...</FilterButton>
           <Filter
             categories={this.state.data.categories}
             types={this.state.data.types}
@@ -144,7 +167,10 @@ class Index extends React.Component {
 
 export default connect(
   null,
-  {addActivity: actions.addActivity}
+  {
+    addActivity: actions.addActivity,
+    showFilter: actions.showFilter
+  }
 )(Index);
 
 export const query = graphql`

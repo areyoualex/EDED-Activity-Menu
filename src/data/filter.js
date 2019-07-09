@@ -10,8 +10,16 @@ function addFilterTerm(type, term) {
 function removeFilterTerm(type, term) {
   return { type: "REMOVE_"+type.toUpperCase(), filter: term };
 }
+function showFilter(value) {
+  return { type: "SHOW_FILTER", value };
+}
 
-export let actions = {changeFilterTerm, addFilterTerm, removeFilterTerm};
+export let actions = {
+  changeFilterTerm,
+  addFilterTerm,
+  removeFilterTerm,
+  showFilter
+};
 
 
 //REDUCERS
@@ -61,6 +69,14 @@ function searchTerm(state = "", action) {
       return state;
   }
 }
+function show(state = false, action) {
+  switch (action.type) {
+    case "SHOW_FILTER":
+      return action.value;
+    default:
+      return state;
+  }
+}
 
 //combine reducers
 const filter = combineReducers({
@@ -68,7 +84,8 @@ const filter = combineReducers({
   type,
   gradeLevel,
   points,
-  searchTerm
+  searchTerm,
+  showFilter: show
 });
 
 export default filter;

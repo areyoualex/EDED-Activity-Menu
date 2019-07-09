@@ -17,6 +17,11 @@ class Filter extends React.Component {
       categories: this.props.categories,
       types: this.props.types
     });
+    if (window.innerWidth >= 850)
+      this.props.showFilter(true);
+  }
+  hideFilter() {
+    this.props.showFilter(false);
   }
   render() {
     let getPoints = (max, inc) => {
@@ -33,8 +38,11 @@ class Filter extends React.Component {
       return ret;
     }
     return (
-      <div className={s.container}>
-        <p className={s.title}>Filter...</p>
+      <div className={s.container} style={{display: this.props.display}}>
+        <div className={s.titleContainer}>
+          <p className={s.title}>Filter...</p>
+          <svg onClick={this.hideFilter.bind(this)} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/></svg>
+        </div>
         <SubfilterCheckbox name="Categories"
           type="CATEGORY"
           options={this.state.categories.slice(0)}
@@ -55,7 +63,15 @@ class Filter extends React.Component {
     );
   }
 }
-export default Filter;
+
+let mapStateFilter = (state) => {
+  if (state.filter.showFilter) return { display: "block" };
+  else return { display: "none" };
+};
+export default connect(
+  mapStateFilter,
+  {showFilter: actions.showFilter}
+)(Filter);
 
 class SubfilterCheckboxUnconnected extends React.Component {
   constructor() {

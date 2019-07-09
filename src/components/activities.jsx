@@ -49,7 +49,7 @@ class Activity extends React.Component {
       pointString = this.props.points+" points";
     return (
       <div className={s.activity} ref={this.ref}>
-        <img src={this.props.img} />
+        <img src={this.props.img} alt="" />
         <div className={s.infoContainer}>
           <h4>{this.props.title}</h4>
           <p>{gradeString}{typeString}</p>
@@ -62,6 +62,7 @@ class Activity extends React.Component {
             })}
           </div>
           <p>{this.props.description}</p>
+          {/* eslint-disable-next-line */}
           {this.props.links && this.props.links.map((link)=>{
             if (link.Link !== "")
               return (
@@ -93,13 +94,15 @@ let mapFilteredActivities = (state) => {
   //Filter categories
   if (state.filter.category.length !== 0){
     let filteredActivities = [];
-    for (let cat of state.filter.category)
+    let cat;
+    let filterFunc = (act) => {
+      if (filteredActivities.includes(act)) return false;
+      return act["Category"].includes(cat);
+    };
+    for (cat of state.filter.category)
       filteredActivities = [
         ...filteredActivities,
-        ...activities.filter(act => {
-          if (filteredActivities.includes(act)) return false;
-          return act["Category"].includes(cat);
-        })
+        ...activities.filter(filterFunc)
       ];
     activities = filteredActivities;
   }
@@ -107,13 +110,15 @@ let mapFilteredActivities = (state) => {
   //Filter types
   if (state.filter.type.length !== 0){
     let filteredActivities = [];
-    for (let type of state.filter.type)
+    let type;
+    let filterFunc = act => {
+      if (filteredActivities.includes(act)) return false;
+      return act["Type"].includes(type);
+    };
+    for (type of state.filter.type)
       filteredActivities = [
         ...filteredActivities,
-        ...activities.filter(act => {
-          if (filteredActivities.includes(act)) return false;
-          return act["Type"].includes(type);
-        })
+        ...activities.filter(filterFunc)
       ];
     activities = filteredActivities;
   }
@@ -121,25 +126,28 @@ let mapFilteredActivities = (state) => {
   //Filter points
   let points = state.filter.points.split("-");
   activities = activities.filter((act) => {
-    if (points[1] == "*") return act.Points >= parseInt(points[0]);
-    else if (act.Points == "*") return true;
+    if (points[1] === "*")
+      return act.Points >= parseInt(points[0]);
+    else if (act.Points === "*") return true;
     else return act.Points >= parseInt(points[0]) && act.Points <= parseInt(points[1]);
   });
 
   //Filter grade level
   if (state.filter.gradeLevel.length !== 0){
     let filteredActivities = [];
-    for (let grade of state.filter.gradeLevel)
+    let grade;
+    let filterFunc = act => {
+      if (filteredActivities.includes(act)) return false;
+      let actGrade = act["Grade Level"].split("-");
+      if (actGrade.length === 1)
+        return grade === actGrade[0];
+      else return parseInt(actGrade[0]) <= parseInt(grade)
+        && parseInt(grade) <= parseInt(actGrade[1]);
+    };
+    for (grade of state.filter.gradeLevel)
       filteredActivities = [
         ...filteredActivities,
-        ...activities.filter(act => {
-          if (filteredActivities.includes(act)) return false;
-          let actGrade = act["Grade Level"].split("-");
-          if (actGrade.length === 1){
-            return grade == actGrade[0];}
-          else return parseInt(actGrade[0]) <= parseInt(grade)
-            && parseInt(grade) <= parseInt(actGrade[1]);
-        })
+        ...activities.filter(filterFunc)
       ];
     activities = filteredActivities;
   }
