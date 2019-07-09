@@ -152,6 +152,12 @@ let mapFilteredActivities = (state) => {
     activities = filteredActivities;
   }
 
+  //Filter search term
+  let search = state.filter.searchTerm.trim();
+  if (search !== ""){
+    activities = activities.filter(act => act.Title.includes(search));
+  }
+
   //Return filtered activities
   let sortFunction = (a,b)=>{
     let varA = a.Title.toLowerCase();

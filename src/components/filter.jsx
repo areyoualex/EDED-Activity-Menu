@@ -43,6 +43,7 @@ class Filter extends React.Component {
           <p className={s.title}>Filter...</p>
           <svg onClick={this.hideFilter.bind(this)} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/></svg>
         </div>
+        <Search />
         <SubfilterCheckbox name="Categories"
           type="CATEGORY"
           options={this.state.categories.slice(0)}
@@ -72,6 +73,28 @@ export default connect(
   mapStateFilter,
   {showFilter: actions.showFilter}
 )(Filter);
+
+class SearchUnconnected extends React.Component {
+  onChange(e) {
+    // console.log(this.props);
+    this.props.changeFilterTerm("SEARCH_TERM", e.target.value)
+  }
+  render() {
+    return (
+      <div className={s.subfilterWrapper}>
+        <p>Search</p>
+        <input type="text"
+          className={s.searchBox}
+          onChange={this.onChange.bind(this)} />
+      </div>
+    );
+  }
+}
+
+const Search = connect(
+  null,
+  {changeFilterTerm: actions.changeFilterTerm}
+)(SearchUnconnected);
 
 class SubfilterCheckboxUnconnected extends React.Component {
   constructor() {
