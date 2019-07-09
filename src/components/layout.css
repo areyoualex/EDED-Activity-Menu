@@ -22,8 +22,8 @@ header h1 {
   color: #004566;
   /* padding-top: 17px; */
 }
-a {
-  text-decoration: none;
+header a {
+  text-decoration: none !important;
 }
 header img {
   height: 29px;
