@@ -33,49 +33,64 @@ class Index extends React.Component {
     s.push(raw);
     s.push(null);
     s.pipe(csv())
-     .on('data', (data) => {
-       //fix category and type data
-       data["Category"] = data["Category"].split(',');
-       data["Type"] = data["Type"].split(',');
+      .on('data', (data) => {
+        //fix category and type data
+        data["Category"] = data["Category"].split(',');
+        data["Type"] = data["Type"].split(',');
 
-       //fix link data
-       data["Links"] = [
-         {
-           "Link": data["Link"],
-           "Text": data["Link Text"]
-         },
-         {
-           "Link": data["Link 2"],
-           "Text": data["Link Text 2"]
-         },
-         {
-           "Link": data["Link 3"],
-           "Text": data["Link Text 3"]
-         },
-       ];
-
-       var state = this.state;
-       //add categories
-       for (var cat of data["Category"]) {
-         if(!this.state.data.categories.includes(cat))
-           state.data.categories.push(cat);
-       }
-       //add types
-       for (var type of data["Type"]) {
-         if(!this.state.data.types.includes(type))
-           state.data.types.push(type);
-       }
-       //update max points
-       if(this.state.data.points.max < data["Points"])
-         state.data.points.max = data["Points"];
-       //update state
-       this.setState(state);
-
-       //add to store
-       this.props.addActivity(data);
+        var state = this.state;
+        //add categories
+        for (var cat of data["Category"]) {
+          if(!this.state.data.categories.includes(cat))
+            if(cat !== "All")
+              state.data.categories.push(cat);
+        }
+        //add types
+        for (var type of data["Type"]) {
+          if(!this.state.data.types.includes(type))
+            state.data.types.push(type);
+        }
+        //update max points
+        if(this.state.data.points.max < data["Points"])
+          state.data.points.max = data["Points"];
+        //update state
+        this.setState(state);
      })
-     .on('end', () => {
-       console.log("done loading!");
+       .on('end', () => {
+         console.log("done loading!");
+         let s2 = new stream.Readable();
+         s2._read = () => {};
+         s2.push(raw);
+         s2.push(null);
+         s2.pipe(csv())
+           .on('data', (data) => {
+             //fix category and type data
+             data["Category"] = data["Category"].split(',');
+             data["Type"] = data["Type"].split(',');
+
+             //fix category "All";
+             if (data["Category"].includes("All"))
+               data["Category"] = this.state.data.categories.slice(0);
+
+             //fix link data
+             data["Links"] = [
+              {
+                "Link": data["Link"],
+                "Text": data["Link Text"]
+              },
+              {
+                "Link": data["Link 2"],
+                "Text": data["Link Text 2"]
+              },
+              {
+                "Link": data["Link 3"],
+                "Text": data["Link Text 3"]
+              },
+             ];
+
+             //add to store
+             this.props.addActivity(data);
+          });
      });
   }
   componentDidMount() {

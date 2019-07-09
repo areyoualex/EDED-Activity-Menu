@@ -98,7 +98,6 @@ let mapFilteredActivities = (state) => {
         ...filteredActivities,
         ...activities.filter(act => {
           if (filteredActivities.includes(act)) return false;
-          if (act["Category"].includes("All")) return true;
           return act["Category"].includes(cat);
         })
       ];
