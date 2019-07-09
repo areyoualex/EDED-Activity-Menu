@@ -129,9 +129,7 @@ class Index extends React.Component {
       font-size: 80px;
       color: #525252;
       font-weight: normal;
-      margin-bottom: 13px;
       @media only screen and (max-width: 850px) {
-        margin-bottom: 2rem;
         font-size: 3rem;
       }
     `;
@@ -153,6 +151,31 @@ class Index extends React.Component {
     return (
       <Layout>
         <Header>{this.props.data.site.siteMetadata.pageTitle}</Header>
+        <p className={s.description}>
+          {`
+            Welcome to our new and improved activity menu! Here, you can find
+            activities to do by categories, type of activity, number of points,
+            and grade level. On mobile, click the "Filter..." button to specify
+            what kind of activity you want.
+          `}<br /><br />{`
+            Note that if you select multiple things in the same filter category,
+            the filter will select all that apply to either, not both - for
+            example, if you select Zero Waste and Water Resilience, activities
+            that are `}<i>either</i>{` Zero Waste or Water Resilience will show.
+            Selecting two things from different filter categories, such Zero
+            Waste and Curriculum, will show only activities that are `}
+            <i>both</i>{` of those things (in this case, both Zero Waste and
+            Curriculum).
+          `}<br /><br />{`
+            Use the search bar to filter by keyword - activities with their
+            title or description containing any of the words (separated by
+            space) in the search box will be shown.
+          `}<br /><br />{`
+            Thanks to our 2019 summer intern `}
+            <a href="https://www.ruizalex.com">Alex Ruiz</a>{`
+            for making this site.
+          `}
+        </p>
         <div className={s.wrapper}>
           <FilterButton onClick={this.showFilter.bind(this)}>Filter...</FilterButton>
           <Filter

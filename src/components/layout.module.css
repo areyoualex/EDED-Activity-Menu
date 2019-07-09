@@ -3,6 +3,10 @@
   margin: auto;
   padding: 0 1rem;
 }
+.content a {
+  color: gray;
+  text-decoration: underline;
+}
 .backLink {
   margin: 35px 0 0;
   display: block;
