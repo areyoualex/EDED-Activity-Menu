@@ -51,7 +51,6 @@
   display: flex;
   margin: 2px;
   align-items: center;
-  width: 45%;
   /* justify-content: space-between; */
 }
 .checkbox span {
