@@ -138,12 +138,13 @@ class Index extends React.Component {
     let FilterButton = styled.button`
       margin: 0 0 1rem 8px;
       font-family: Roboto;
+      font-size: 1.3rem;
       font-style: italic;
       color: #fff;
       border: none;
       background-color: #5A5A5A;
       border-radius: 10px;
-      padding: 4px 20px;
+      padding: 4px 25px;
       display: none;
       @media only screen and (max-width: 850px) {
         display: block;
