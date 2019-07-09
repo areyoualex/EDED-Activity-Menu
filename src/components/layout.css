@@ -40,6 +40,28 @@ header div.wrapper {
   align-items: flex-end;
   padding-top: 17px;
 }
+footer {
+  background-color: #87c9c3;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 11rem;
+  padding: 1rem 0;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+footer a {
+  color: white;
+  text-decoration: underline;
+}
+footer span {
+  font-family: Oswald;
+  text-transform: uppercase;
+  letter-spacing: .45rem;
+  font-size: 20px;
+  color: #146B71;
+}
 
 /* MOBILE */
 @media only screen and (max-width: 850px) {

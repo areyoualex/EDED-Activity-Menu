@@ -11,3 +11,21 @@
   background-color: #87c9c3;
   z-index: -1;
 }
+.footerBG {
+  position: absolute;
+  bottom: 0;
+  height: 11rem;
+  width: 100%;
+  /* background-color:  */
+  background-color: #87c9c3;
+  z-index: -1;
+}
+.SMWrapper {
+  height: 2rem;
+  width: 5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.SMWrapper svg {
+  height: 2rem;
+}
