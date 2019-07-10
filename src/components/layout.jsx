@@ -1,5 +1,7 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
+import Helmet from 'react-helmet'
+
 import './layout.css'
 import s from './layout.module.css'
 import logo from '../img/sustainabilitylogo.webp'
@@ -10,6 +12,7 @@ let layout = (props) => {
       site {
         siteMetadata {
           title
+          pageTitle
           homeUrl
           contact {
             email
@@ -21,6 +24,10 @@ let layout = (props) => {
     }`);
   return (
     <div style={{position: "relative"}}>
+      <Helmet
+        title={data.site.siteMetadata.title + " | "
+          + data.site.siteMetadata.pageTitle}
+        defer={false} />
       <div className={s.headerBG} />
       <div className={s.content}>
         <header>
