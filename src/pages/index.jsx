@@ -212,18 +212,8 @@ class Index extends React.Component {
             and grade level. On mobile, click the "Filter..." button to specify
             what kind of activity you want.
           `}<br /><br />{`
-            Note that if you select multiple things in the same filter category,
-            the filter will select all that apply to either, not both - for
-            example, if you select Zero Waste and Water Resilience, activities
-            that are `}<i>either</i>{` Zero Waste or Water Resilience will show.
-            Selecting two things from different filter categories, such Zero
-            Waste and Curriculum, will show only activities that are `}
-            <i>both</i>{` of those things (in this case, both Zero Waste and
-            Curriculum).
-          `}<br /><br />{`
-            Use the search bar to filter by keyword - activities with their
-            title or description containing any of the words (separated by
-            space) in the search box will be shown.
+            Get started by typing a keyword or selecting some categories. The
+            activity list will automatically update when you change something.
           `}<br /><br />{`
             Thanks to our 2019 summer intern `}
             <a href="https://www.ruizalex.com">Alex Ruiz</a>{`
