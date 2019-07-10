@@ -16,6 +16,8 @@ class Activities extends React.Component {
             <Activity key={activity.Title}
               title={activity.Title}
               img={activity.Image}
+              alt={activity.Organization}
+              orgLink={activity["Organization Link"]}
               grade={activity["Grade Level"]}
               type={activity.Type}
               points={activity.Points}
@@ -39,6 +41,7 @@ class Activity extends React.Component {
       : "Grade "+this.props.grade;
     }
     gradeString = gradeString.replace("0","K");
+    gradeString = gradeString.replace("1K","10");
     let typeString = "";
     if (this.props.type) {
       for (let i of this.props.type)
@@ -49,7 +52,9 @@ class Activity extends React.Component {
       pointString = this.props.points+" points";
     return (
       <div className={s.activity} ref={this.ref}>
-        <img src={this.props.img} alt="" />
+        <a href={this.props.orgLink}>
+          <img src={this.props.img} alt={this.props.alt} />
+        </a>
         <div className={s.infoContainer}>
           <h4>{this.props.title}</h4>
           <p>{gradeString}{typeString}</p>

@@ -88,23 +88,76 @@ class Index extends React.Component {
               },
              ];
 
-             //add to store
-             this.props.addActivity(data);
+             //add to activity cache
+             this.activities.push(data);
+          })
+          .on('end', () => {
+            const orgurl = process.env.GATSBY_ORGANIZATION_DATA_URL;
+            let state = this.state;
+
+            //organization request
+            if (!orgurl) {
+              state.error = "Error: URL for organization data not found";
+              this.setState(state);
+              return;
+            }
+            this.organizationrequest = new XMLHttpRequest();
+            this.organizationrequest.open("GET", orgurl);
+            this.organizationrequest.onreadystatechange = (e) => {
+              var req = this.organizationrequest;
+              if (req.readyState === 4)
+                if (req.status === 200) {
+                  this.handleOrganizationData(req.responseText);
+                } else {
+                  this.setState({error: "Error: "+req.statusText});
+                  return;
+                }
+            };
+            this.organizationrequest.onreadystatechange.bind(this);
+
+            //send organizationrequest here
+            this.organizationrequest.send();
           });
      });
   }
+  handleOrganizationData(raw) {
+    console.log("received organization data, now loading...");
+    let s2 = new stream.Readable();
+    s2._read = () => {};
+    s2.push(raw);
+    s2.push(null);
+    s2.pipe(csv())
+      .on('data', data => {
+        //filter activities that have the same organization ID
+        let matched = this.activities
+          .filter(act => act["Organization ID"] === data.ID);
+        for (let act of matched) {
+          //Give organization link and image url
+          act["Organization Link"] = data.Link;
+          act["Image"] = 'img/orgs/id'+data.ID;
+          act["Organization"] = data.Name;
+
+          //add to store
+          this.props.addActivity(act);
+        }
+      });
+  }
   componentDidMount() {
     var url = process.env.GATSBY_DATA_URL;
+
     var state = this.state;
+    this.activities = [];
+
+    //activity request
     if (!url) {
       state.error = "Error: URL for activities data not found";
       this.setState(state);
       return;
     }
-    this.request = new XMLHttpRequest();
-    this.request.open("GET", url);
-    this.request.onreadystatechange = (e) => {
-      var req = this.request;
+    this.activityrequest = new XMLHttpRequest();
+    this.activityrequest.open("GET", url);
+    this.activityrequest.onreadystatechange = (e) => {
+      var req = this.activityrequest;
       if (req.readyState === 4)
         if (req.status === 200) {
           this.handleActivityData(req.responseText);
@@ -113,10 +166,11 @@ class Index extends React.Component {
           return;
         }
     };
-    this.request.onreadystatechange.bind(this);
+    this.activityrequest.onreadystatechange.bind(this);
 
     //send request here
-    this.request.send();
+    this.activityrequest.send();
+
     this.setState(state);
   }
   showFilter() {

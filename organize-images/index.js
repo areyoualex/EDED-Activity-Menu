@@ -12,9 +12,13 @@ rp(dataURL)
     let processedURLS = [];
     fs.writeFileSync(`index.html`,'');
     for (let act of newData){
-      if (processedURLS.includes(act.Image))
+      if (processedURLS.map(a => a.URL).includes(act.Image)){
+        processedURLS.find(a => a.URL == act.Image).activities.push(act.Title);
         continue;
-      else processedURLS.push(act.Image);
+      }
+      else processedURLS.push(
+        {URL: act.Image, activities:[act.Title], name:""}
+      );
       request(
         {
           encoding: 'binary',
@@ -43,6 +47,9 @@ rp(dataURL)
           console.log("appended: " +`<div><p>`+path+`</p><img src="`+path+`" /></div>`);
         });
     }
+    fs.writeFile('urlMap.json',JSON.stringify(processedURLS),
+      (err)=>{if (err) throw err;});
+    console.log('wrote urlMap.json');
   })
   .catch(err => {
     console.log("Error requesting from url "+dataURL);

@@ -3,3 +3,6 @@ node_modules/
 public/
 /organize-images/images
 /organize-images/index.html
+static/img/orgs/*
+/organize-images/*.json
+/organize-images/*.csv

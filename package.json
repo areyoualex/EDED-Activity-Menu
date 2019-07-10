@@ -27,6 +27,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
+    "request": "^2.88.0",
     "styled-components": "^4.3.2"
   }
 }
