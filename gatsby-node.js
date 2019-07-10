@@ -7,7 +7,7 @@ const dataURL = "https://docs.google.com/spreadsheets/d/1j1FtQHnnsEf2I2stI0eWrAa
 
 exports.onPreInit = (() => {
   //clear org img directory
-  const orgpath = 'static/img/orgs/';
+  const orgpath = 'public/img/orgs/';
   if (fs.existsSync(orgpath))
     fs.readdir(orgpath, (err, files) => {
       if (err) throw err;
@@ -33,6 +33,6 @@ exports.onPreInit = (() => {
     })
     .on('end', () => {
       //do something
-      console.log('Organization images written to src/img/orgs/');
+      console.log('Organization images written to '+orgpath);
     });
 });
