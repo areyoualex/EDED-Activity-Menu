@@ -21,7 +21,6 @@ class Activities extends React.Component {
               type={activity.Type}
               points={activity.Points}
               description={activity.Description}
-              links={activity.Links}
               categories={activity.Category} />
           );
         })}
