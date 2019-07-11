@@ -29,6 +29,7 @@ class Index extends React.Component {
   }
   handleActivityData(raw) {
     let s = new stream.Readable();
+    console.log("activity data received, now loading...");
     s._read = () => {};
     s.push(raw);
     s.push(null);
@@ -38,118 +39,91 @@ class Index extends React.Component {
         data["Category"] = data["Category"].split(',');
         data["Type"] = data["Type"].split(',');
 
-        var state = this.state;
-        //add categories
-        for (var cat of data["Category"]) {
-          if(!this.state.data.categories.includes(cat))
-            if(cat !== "All")
-              state.data.categories.push(cat);
-        }
-        //add types
-        for (var type of data["Type"]) {
-          if(!this.state.data.types.includes(type))
-            state.data.types.push(type);
-        }
-        //update max points
-        if(this.state.data.points.max < data["Points"])
-          state.data.points.max = data["Points"];
-        //update state
-        this.setState(state);
+        //add to activity cache
+        this.activities.push(data);
      })
        .on('end', () => {
-         console.log("done loading!");
-         let s2 = new stream.Readable();
-         s2._read = () => {};
-         s2.push(raw);
-         s2.push(null);
-         s2.pipe(csv())
-           .on('data', (data) => {
-             //fix category and type data
-             data["Category"] = data["Category"].split(',');
-             data["Type"] = data["Type"].split(',');
-
-             //fix category "All";
-             if (data["Category"].includes("All"))
-               data["Category"] = this.state.data.categories.slice(0);
-
-             //fix link data
-             data["Links"] = [
-              {
-                "Link": data["Link"],
-                "Text": data["Link Text"]
-              },
-              {
-                "Link": data["Link 2"],
-                "Text": data["Link Text 2"]
-              },
-              {
-                "Link": data["Link 3"],
-                "Text": data["Link Text 3"]
-              },
-             ];
-
-             //add to activity cache
-             this.activities.push(data);
-          })
-          .on('end', () => {
-            const orgurl = process.env.GATSBY_ORGANIZATION_DATA_URL;
-            let state = this.state;
-
-            //organization request
-            if (!orgurl) {
-              state.error = "Error: URL for organization data not found";
-              this.setState(state);
-              return;
+          console.log("done loading activity data!");
+          console.log("now processing...")
+          var state = this.state;
+          //loop through activities and get general data
+          for (let data of this.activities) {
+            //add categories
+            for (var cat of data["Category"]) {
+              if(!state.data.categories.includes(cat))
+                if(cat !== "All")
+                  state.data.categories.push(cat);
             }
-            this.organizationrequest = new XMLHttpRequest();
-            this.organizationrequest.open("GET", orgurl);
-            this.organizationrequest.onreadystatechange = (e) => {
-              var req = this.organizationrequest;
-              if (req.readyState === 4)
-                if (req.status === 200) {
-                  this.handleOrganizationData(req.responseText);
-                } else {
-                  this.setState({error: "Error: "+req.statusText});
-                  return;
-                }
-            };
-            this.organizationrequest.onreadystatechange.bind(this);
+            //add types
+            for (var type of data["Type"]) {
+              if(!state.data.types.includes(type))
+                state.data.types.push(type);
+            }
+            //update max points
+            if(state.data.points.max < data["Points"])
+              state.data.points.max = data["Points"];
+          }
+          console.log("done dynamically getting categories + types...");
+          //update state
+          this.setState(state);
 
-            //send organizationrequest here
-            this.organizationrequest.send();
-          });
+          console.log("now processing activities again for 'all' category...");
+          for (let data of this.activities) {
+            //fix category "All";
+            if (data["Category"].includes("All"))
+              data["Category"] = this.state.data.categories.slice(0);
+          }
+
+          console.log("done processing activities for 'all' category!");
+          console.log("now getting organization data...");
+
+          //send organizationrequest here
+          this.organizationrequest.send();
      });
   }
   handleOrganizationData(raw) {
     console.log("received organization data, now loading...");
+    this.organizations = [];
+
     let s2 = new stream.Readable();
     s2._read = () => {};
     s2.push(raw);
     s2.push(null);
     s2.pipe(csv())
       .on('data', data => {
-        //filter activities that have the same organization ID
-        let matched = this.activities
-          .filter(act => act["Organization ID"] === data.ID);
-        for (let act of matched) {
-          //Give organization link and image url
-          act["Organization Link"] = data.Link;
-          act["Image"] = 'img/orgs/id'+data.ID;
-          act["Organization"] = data.Name;
+        this.organizations.push(data);
+      })
+      .on('end', () => {
+        console.log("done loading organization data!");
 
-          //add to store
-          this.props.addActivity(act);
-        }
+        console.log("now processing activities with organization data...");
+        for (let act of this.activities){
+          let id = act["Organization ID"];
+          let org = this.organizations[id];
+          //Give organization link and image url
+          act["Organization Link"] = org.Link;
+          act["Image"] = 'img/orgs/id'+id;
+          act["Organization"] = org.Name;
+        };
+        console.log("done processing all activities!");
+
+        console.log("adding each to store...");
+        //add to store
+        this.props.addActivities(this.activities);
+        console.log("done adding activities to store!");
+
+        console.log("activities should now be loaded.");
       });
   }
   componentDidMount() {
     var url = process.env.GATSBY_DATA_URL;
 
-    var state = this.state;
     this.activities = [];
 
     //activity request
     if (!url) {
+      let state = this.state;
+      console.log("Error: URL for activities data not found");
       state.error = "Error: URL for activities data not found";
       this.setState(state);
       return;
@@ -162,16 +136,42 @@ class Index extends React.Component {
         if (req.status === 200) {
           this.handleActivityData(req.responseText);
         } else {
+          console.log("Error with activity request: "+req.status);
+          console.log(req.statusText);
           this.setState({error: "Error: "+req.statusText});
           return;
         }
     };
     this.activityrequest.onreadystatechange.bind(this);
 
-    //send request here
-    this.activityrequest.send();
+    //prepare organization data request
+    const orgurl = process.env.GATSBY_ORGANIZATION_DATA_URL;
+    if (!orgurl) {
+      let state = this.state;
+      console.log("Error: URL for organization data not found");
+      state.error = "Error: URL for organization data not found";
+      this.setState(state);
+      return;
+    }
+    this.organizationrequest = new XMLHttpRequest();
+    this.organizationrequest.open("GET", orgurl);
+    this.organizationrequest.onreadystatechange = (e) => {
+      var req = this.organizationrequest;
+      if (req.readyState === 4)
+        if (req.status === 200) {
+          this.handleOrganizationData(req.responseText);
+        } else {
+          console.log("Error with organization request: "+req.status);
+          console.log(req.statusText);
+          this.setState({error: "Error: "+req.statusText});
+          return;
+        }
+    };
+    this.organizationrequest.onreadystatechange.bind(this);
 
-    this.setState(state);
+    //send activity data request
+    console.log("sending activity request...");
+    this.activityrequest.send();
   }
   showFilter() {
     console.log(actions);
@@ -236,7 +236,7 @@ class Index extends React.Component {
 export default connect(
   null,
   {
-    addActivity: actions.addActivity,
+    addActivities: actions.addActivities,
     showFilter: actions.showFilter
   }
 )(Index);

@@ -4,23 +4,31 @@ import filter from './filter';
 
 //ACTION CREATORS
 function addActivity(activity) {
-  return { type: "ADD_DATA", activity };
+  return { type: "ADD_DATUM", activity };
 }
 function removeActivity(activity) {
   return { type: "REMOVE_DATA", activity };
 }
+function addActivities(activities) {
+  return { type: "ADD_DATA", activities };
+}
 
-export let actions = {...filterActions, addActivity, removeActivity};
+export let actions = {...filterActions, addActivity, removeActivity,
+  addActivities };
 
 //REDUCERS
 function activities(state = [], action) {
   switch (action.type) {
-    case "ADD_DATA":
-      let ret = [
+    case "ADD_DATUM":
+      return [
         ...state,
         action.activity
       ];
-      return ret;
+    case "ADD_DATA":
+      return [
+        ...state,
+        ...action.activities
+      ];
     case "REMOVE_DATA":
       let activities = state.activities;
       let i = activities.findIndex(action.activity);
