@@ -42,10 +42,6 @@ footer {
   justify-content: space-between;
   box-sizing: border-box;
 }
-footer a {
-  color: white;
-  text-decoration: underline;
-}
 footer span {
   font-family: Oswald;
   text-transform: uppercase;

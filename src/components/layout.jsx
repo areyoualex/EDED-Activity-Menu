@@ -41,7 +41,7 @@ let layout = (props) => {
           {"<"} Back to Home
         </a>
         {props.children}
-        <footer>
+        <footer className={s.footer}>
           <span>Contact Us</span>
           <p>SFUSD Sustainability Office</p>
           <a href={"mailto:"+data.site.siteMetadata.contact.email}>

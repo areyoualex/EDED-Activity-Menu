@@ -32,6 +32,10 @@
   background-color: #87c9c3;
   z-index: -1;
 }
+.footer a {
+  color: white;
+  text-decoration: underline;
+}
 .SMWrapper {
   height: 2rem;
   width: 5rem;
