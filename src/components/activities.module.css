@@ -55,6 +55,12 @@
   margin-right: 5px;
   margin-bottom: 5px;
 }
+.description p {
+  margin-top: 10px;
+}
+.description ol, .description ul {
+  padding-inline-start: 1rem;
+}
 
 @media only screen and (max-width: 850px) {
   .main {

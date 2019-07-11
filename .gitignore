@@ -6,3 +6,4 @@ public/
 static/img/orgs/*
 /organize-images/*.json
 /organize-images/*.csv
+.env.*

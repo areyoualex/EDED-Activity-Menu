@@ -1,7 +1,6 @@
 import React from 'react'
-// import { useStaticQuery, graphql } from 'gatsby'
-
 import { connect } from 'react-redux'
+import MarkdownIt from 'markdown-it'
 
 import s from './activities.module.css'
 
@@ -34,6 +33,7 @@ class Activities extends React.Component {
 class Activity extends React.Component {
   static defaultProps = {categories: []}
   render() {
+    let md = new MarkdownIt({typographer: true});
     let gradeString = "";
     if (this.props.grade) {
       gradeString = this.props.grade.includes("-") ?
@@ -66,16 +66,10 @@ class Activity extends React.Component {
               );
             })}
           </div>
-          <p>{this.props.description}</p>
-          {/* eslint-disable-next-line */}
-          {this.props.links && this.props.links.map((link)=>{
-            if (link.Link !== "")
-              return (
-                <a href={link.Link}>
-                  {link.Text}
-                </a>
-              );
-          })}
+          <div className={s.description}
+            dangerouslySetInnerHTML={{
+              __html: md.render(this.props.description)
+            }} />
         </div>
       </div>
     );

@@ -3,7 +3,10 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
 
-const dataURL = "https://docs.google.com/spreadsheets/d/1j1FtQHnnsEf2I2stI0eWrAa-eG6EeRn3QEqNsaOVPv8/gviz/tq?tqx=out:csv&sheet=organization";
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+const dataURL = process.env.GATSBY_ORGANIZATION_DATA_URL;
 
 exports.onPreInit = (() => {
   //clear org img directory
