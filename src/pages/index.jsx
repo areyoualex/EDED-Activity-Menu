@@ -174,7 +174,7 @@ class Index extends React.Component {
     this.activityrequest.send();
   }
   showFilter() {
-    console.log(actions);
+    // console.log(actions);
     this.props.showFilter(true);
   }
   render() {
