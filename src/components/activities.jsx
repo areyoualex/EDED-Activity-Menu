@@ -4,7 +4,8 @@ import MarkdownIt from 'markdown-it'
 
 import s from './activities.module.css'
 
-import colorMap from '../colorMap.json'
+// import colorMap from '../colorMap.json'
+let colorMap;
 
 class Activities extends React.Component {
   render () {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import Layout from '../components/layout'
+import { Layout } from 'eded-theme'
 import Filter from '../components/filter'
 import Activities from '../components/activities'
 
@@ -178,15 +178,6 @@ class Index extends React.Component {
     this.props.showFilter(true);
   }
   render() {
-    let Header = styled.h2`
-      font-family: Oswald;
-      font-size: 80px;
-      color: #525252;
-      font-weight: normal;
-      @media only screen and (max-width: 850px) {
-        font-size: 3rem;
-      }
-    `;
     let FilterButton = styled.button`
       margin: 0 0 1rem 8px;
       font-family: Roboto;
@@ -203,8 +194,7 @@ class Index extends React.Component {
       }
     `;
     return (
-      <Layout>
-        <Header>{this.props.data.site.siteMetadata.pageTitle}</Header>
+      <Layout title={"Activity Menu"}>
         <p className={s.description}>
           {`
             Welcome to our new and improved activity menu! Here, you can find
@@ -240,13 +230,3 @@ export default connect(
     showFilter: actions.showFilter
   }
 )(Index);
-
-export const query = graphql`
-  query IndexQuery {
-    site {
-      siteMetadata {
-        pageTitle
-      }
-    }
-  }
-`;
