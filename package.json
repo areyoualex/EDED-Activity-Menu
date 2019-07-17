@@ -22,6 +22,7 @@
     "babel-plugin-styled-components": "^1.10.2",
     "csv-parser": "^2.3.0",
     "dotenv": "^8.0.0",
+    "eded-theme": "github:sfusd-sustainability/theme",
     "gatsby": "^2.10.4",
     "gatsby-plugin-manifest": "^2.2.1",
     "gatsby-plugin-react-helmet": "^3.1.0",
@@ -33,6 +34,7 @@
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
     "request": "^2.88.0",
+    "rinse-react": "github:cwlsn/rinse-react",
     "styled-components": "^4.3.2"
   }
 }

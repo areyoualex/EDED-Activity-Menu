@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 import MarkdownIt from 'markdown-it'
 
 import s from './activities.module.css'
-
-// import colorMap from '../colorMap.json'
-let colorMap;
+import { data } from 'eded-theme'
 
 class Activities extends React.Component {
   render () {
@@ -79,7 +77,7 @@ class Activity extends React.Component {
 const Pill = (props) => {
   return (
     <div className={s.pill} style={{
-        backgroundColor: colorMap[props.name]
+        backgroundColor: data.categories[props.name]
       }}>
       {props.name}
     </div>
