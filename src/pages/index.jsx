@@ -194,8 +194,7 @@ class Index extends React.Component {
   }
   render() {
     return (
-      // <Layout title={"Activity Menu"}>
-      <Layout>
+      <Layout title={"Activity Menu"}>
         <p className={s.description}>
           {`
             Welcome to our new and improved activity menu! Here, you can find
