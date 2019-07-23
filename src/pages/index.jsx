@@ -1,6 +1,5 @@
 import React from 'react'
-import { graphql } from 'gatsby'
-import Layout from '../components/layout'
+import { Layout } from 'eded-theme'
 import Filter from '../components/filter'
 import Activities from '../components/activities'
 
@@ -12,6 +11,22 @@ import { actions } from '../data/app'
 
 import stream from 'stream'
 import csv from 'csv-parser'
+
+let FilterButton = styled.button`
+  margin: 0 0 1rem 8px;
+  font-family: Roboto;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #fff;
+  border: none;
+  background-color: #5A5A5A;
+  border-radius: 10px;
+  padding: 4px 25px;
+  display: none;
+  @media only screen and (max-width: 850px) {
+    display: block;
+  }
+`;
 
 class Index extends React.Component {
   constructor() {
@@ -178,33 +193,8 @@ class Index extends React.Component {
     this.props.showFilter(true);
   }
   render() {
-    let Header = styled.h2`
-      font-family: Oswald;
-      font-size: 80px;
-      color: #525252;
-      font-weight: normal;
-      @media only screen and (max-width: 850px) {
-        font-size: 3rem;
-      }
-    `;
-    let FilterButton = styled.button`
-      margin: 0 0 1rem 8px;
-      font-family: Roboto;
-      font-size: 1.3rem;
-      font-style: italic;
-      color: #fff;
-      border: none;
-      background-color: #5A5A5A;
-      border-radius: 10px;
-      padding: 4px 25px;
-      display: none;
-      @media only screen and (max-width: 850px) {
-        display: block;
-      }
-    `;
     return (
-      <Layout>
-        <Header>{this.props.data.site.siteMetadata.pageTitle}</Header>
+      <Layout title={"Activity Menu"}>
         <p className={s.description}>
           {`
             Welcome to our new and improved activity menu! Here, you can find
@@ -240,13 +230,3 @@ export default connect(
     showFilter: actions.showFilter
   }
 )(Index);
-
-export const query = graphql`
-  query IndexQuery {
-    site {
-      siteMetadata {
-        pageTitle
-      }
-    }
-  }
-`;

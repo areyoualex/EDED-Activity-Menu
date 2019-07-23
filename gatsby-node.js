@@ -26,7 +26,6 @@ exports.onPreInit = (() => {
       request({
         url: "https://drive.google.com/uc?export=view&id="
           + org["Photo ID in Google Drive"],
-        encoding: 'binary',
         method: 'GET'
       })
         .pipe(fs.createWriteStream(
@@ -39,3 +38,19 @@ exports.onPreInit = (() => {
       console.log('Organization images written to '+orgpath);
     });
 });
+
+exports.onCreateWebpackConfig = ({
+  stage,
+  rules,
+  loaders,
+  plugins,
+  actions,
+}) => {
+  actions.setWebpackConfig({
+    resolve: {
+      alias: {
+        "styled-components": path.resolve("node_modules","styled-components"),
+      }
+    }
+  });
+};
