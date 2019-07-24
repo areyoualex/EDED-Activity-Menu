@@ -138,7 +138,7 @@ function processLineByLine(schoolLevel, type) {
         for (var i=0; i<line.length; i++){
           // console.log("char at "+i+": "+line[i]);
           // console.log("charcode at "+i+": "+line.charCodeAt(i));
-          if (line[i] == ' ') break; // TODO: check if this works
+          if (line[i] == ' ') break;
           points += line[i];
         }
         // console.log(points);
