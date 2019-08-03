@@ -20,7 +20,7 @@ class Activities extends React.Component {
               type={activity.Type}
               points={activity.Points}
               description={activity.Description}
-              categories={activity.Categories} />
+              categories={activity.Category} />
           );
         })}
       </div>
