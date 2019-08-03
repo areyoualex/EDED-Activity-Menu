@@ -160,6 +160,9 @@ let mapFilteredActivities = (state) => {
       if (act.Title.toLowerCase().includes(search.join(' '))){
         act.relevance+=50;
       }
+      if (act.Organization.toLowerCase().includes(search.join(' '))){
+        act.relevance+=2
+      }
       if (act.Description.toLowerCase().includes(search.join(' ')))
         act.relevance+=30;
       act.relevance +=
