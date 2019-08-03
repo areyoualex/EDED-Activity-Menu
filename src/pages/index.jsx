@@ -51,7 +51,7 @@ class Index extends React.Component {
     s.pipe(csv())
       .on('data', (data) => {
         //fix category and type data
-        data["Pillar"] = data["Pillar"].split(',');
+        data["Category"] = data["Pillar"].split(',');
         data["Type"] = data["Type"].split(',');
 
         //add to activity cache
@@ -64,7 +64,7 @@ class Index extends React.Component {
           //loop through activities and get general data
           for (let data of this.activities) {
             //add categories
-            for (var cat of data["Pillar"]) {
+            for (var cat of data["Category"]) {
               if(!state.data.categories.includes(cat))
                 if(cat !== "All")
                   state.data.categories.push(cat);
@@ -85,8 +85,8 @@ class Index extends React.Component {
           console.log("now processing activities again for 'all' category...");
           for (let data of this.activities) {
             //fix category "All";
-            if (data["Pillar"].includes("All"))
-              data["Pillar"] = this.state.data.categories.slice(0);
+            if (data["Category"].includes("All"))
+              data["Category"] = this.state.data.categories.slice(0);
           }
 
           console.log("done processing activities for 'all' category!");
