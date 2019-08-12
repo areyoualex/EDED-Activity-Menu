@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import MarkdownIt from 'markdown-it'
 
 import s from './activities.module.css'
-import { data } from 'eded-theme'
+import { data } from '../eded-theme'
 
 class Activities extends React.Component {
   render () {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout } from 'eded-theme'
+import { Layout } from '../eded-theme'
 import Filter from '../components/filter'
 import Activities from '../components/activities'
 

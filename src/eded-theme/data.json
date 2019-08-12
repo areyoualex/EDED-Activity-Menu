@@ -1,0 +1,17 @@
+{
+  "name": "SFUSD Earth Day Every Day Challenge",
+  "title": "Earth Day Every Day | SFUSD Sustainability",
+  "homeUrl": "https://www.earthdayeverydaysf.com/",
+  "contact": {
+    "email": "conserve@sfusd.edu",
+    "twitter": "greenthenextgen",
+    "instagram": "sfusd_sustainability"
+  },
+  "categories": {
+    "Carbon Neutrality":"#F28E2B",
+    "Water Resilience":"#76B7B2",
+    "Zero Waste":"#DC5557",
+    "Sustainable Transportation":"#EDC948",
+    "Connection to Nature":"#59A14F"
+  }
+}
