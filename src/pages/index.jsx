@@ -197,17 +197,13 @@ class Index extends React.Component {
       <Layout title={"Activity Menu"}>
         <p className={s.description}>
           {`
-            Welcome to our new and improved activity menu! Here, you can find
-            activities to do by categories, type of activity, number of points,
-            and grade level. On mobile, click the "Filter..." button to specify
-            what kind of activity you want.
+            Welcome to our new and improved activity menu! Filter by sustainability pillar, activity type, and grade level. The activity list will automatically update with your selections.
           `}<br /><br />{`
-            Get started by typing a keyword or selecting some categories. The
-            activity list will automatically update when you change something.
+            On mobile, click on the "Filter" button.
           `}<br /><br />{`
             Thanks to our 2019 summer intern `}
             <a href="https://www.ruizalex.com">Alex Ruiz</a>{`
-            for making this site.
+            for making this new Activity Menu!
           `}
         </p>
         <div className={s.wrapper}>
