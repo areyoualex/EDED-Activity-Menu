@@ -197,9 +197,9 @@ class Index extends React.Component {
       <Layout title={"Activity Menu"}>
         <p className={s.description}>
           {`
-            Welcome to our new and improved activity menu! Filter by sustainability pillar, activity type, and grade level. The activity list will automatically update with your selections.
+            Welcome to our new and improved activity menu! We’ve gathered all types of FREE sustainability activities for you to easily find ready-to-go resources you're interested in. Many are NGSS or Common Core aligned!
           `}<br /><br />{`
-            On mobile, click on the "Filter" button.
+            Filter by sustainability pillar, activity type, and grade level. The activity list will automatically update with your selections. On mobile, click on the "Filter" button.
           `}<br /><br />{`
             Thanks to our 2019 summer intern `}
             <a href="https://www.ruizalex.com">Alex Ruiz</a>{`
