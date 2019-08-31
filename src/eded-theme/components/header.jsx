@@ -2,7 +2,7 @@ import React from 'react'
 import data from '../data.json'
 import styled from 'styled-components'
 
-import logo from '../img/sustainabilitylogo.webp'
+import logo from '../img/sustainabilitylogo.png'
 
 const StyledHeader = styled.header`
   font-family: 'Oswald';
